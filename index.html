@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aqua Studio | Desenvolvimento Web Profissional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Animação suave para a troca de projetos */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6', // blue-500
+                        dark: '#0f172a', // slate-900
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-dark text-slate-200 antialiased selection:bg-primary selection:text-white">
+
+    <nav id="navbar" class="fixed w-full z-50 bg-dark/80 backdrop-blur-md border-b border-slate-800 transition-transform duration-300 transform translate-y-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Contenedor con relative para poder centrar el menú de forma absoluta -->
+            <div class="flex justify-between items-center h-16 relative">
+                
+                <!-- Lado Izquierdo: Logo + Texto -->
+                <div class="flex items-center cursor-pointer w-1/3 z-10">
+                    <img src="logo-aqua.png" alt="Aqua Studio Logo" class="h-16 w-auto object-contain scale-[1.7] origin-left relative z-20">
+                    <span class="text-white font-extrabold uppercase tracking-tight text-xl ml-10 hidden lg:block z-10 whitespace-nowrap">- Web Solutions</span>
+                </div>
+                
+                <!-- Centro: Enlaces (Centrados matemáticamente en la pantalla) -->
+                <div class="hidden md:flex space-x-8 absolute left-1/2 transform -translate-x-1/2 w-max z-10">
+                    <a href="#inicio" class="text-slate-300 hover:text-white transition-colors">Início</a>
+                    <a href="#ventajas" class="text-slate-300 hover:text-white transition-colors">Por que nos escolher</a>
+                    <a href="#portafolio" class="text-slate-300 hover:text-white transition-colors">Projetos</a>
+                </div>
+                
+                <!-- Lado Derecho: Botão -->
+                <div class="flex justify-end w-1/3 z-10">
+                    <a href="https://wa.me/556799261158?text=Ol%C3%A1%20Aqua%20Studio!%20%F0%9F%91%8B%0AGostaria%20de%20saber%20mais%20sobre%20a%20cria%C3%A7%C3%A3o%20de%20sites." target="_blank" class="bg-primary hover:bg-blue-600 text-white px-5 py-2 rounded-full font-medium transition-all shadow-lg shadow-blue-500/30">
+                        Fale conosco
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <section id="inicio" class="min-h-screen flex flex-col justify-center pt-20 pb-16 px-4 relative overflow-hidden">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[500px] opacity-20 pointer-events-none" style="background: radial-gradient(circle, #3b82f6 0%, transparent 70%);"></div>
+        
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight tracking-tight">
+                Eleve sua Empresa ao <span class="bg-gradient-to-r from-blue-400 to-indigo-500 gradient-text">Próximo Nível</span> Digital
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-400 mb-10 max-w-3xl mx-auto font-light leading-relaxed">
+                Criamos sites rápidos, atraentes e focados em converter visitantes em clientes. Seu negócio merece uma presença online que inspire confiança.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                <a href="#portafolio" class="w-full sm:w-auto px-8 py-4 bg-white text-dark hover:bg-slate-100 rounded-full font-bold text-lg transition-all">
+                    Ver nossos projetos
+                </a>
+                <a href="#contacto" class="w-full sm:w-auto px-8 py-4 border border-slate-600 hover:border-slate-400 text-white rounded-full font-bold text-lg transition-all flex items-center justify-center gap-2">
+                    Iniciar um projeto <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="ventajas" class="py-20 bg-slate-900/50 border-y border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white">Por que trabalhar conosco?</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-2xl bg-slate-800/50 border border-slate-700 hover:border-primary/50 transition-colors">
+                    <div class="w-14 h-14 bg-blue-500/20 text-primary rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="zap" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Desenvolvimento Ágil</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Utilizamos <span class="text-slate-200 font-medium">ferramentas de vanguarda e fluxos de trabalho de última geração</span> para acelerar a criação do seu site, entregando resultados premium em uma fração do tempo tradicional.
+                    </p>
+                </div>
+                <div class="p-8 rounded-2xl bg-slate-800/50 border border-slate-700 hover:border-primary/50 transition-colors">
+                    <div class="w-14 h-14 bg-indigo-500/20 text-indigo-400 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="smartphone" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Design Responsivo</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Seu site ficará perfeito em qualquer dispositivo. Otimizamos cada detalhe para garantir uma experiência fluida tanto em celulares quanto em computadores de mesa.
+                    </p>
+                </div>
+                <div class="p-8 rounded-2xl bg-slate-800/50 border border-slate-700 hover:border-primary/50 transition-colors">
+                    <div class="w-14 h-14 bg-emerald-500/20 text-emerald-400 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="target" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Foco em Resultados</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Não fazemos apenas sites bonitos. Estruturamos a informação para guiar seus visitantes à ação, seja para entrar em contato, comprar ou se inscrever.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portafolio" class="py-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-8">
+                <div class="max-w-2xl">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">Comprove a fluidez e o design dos sites aqui mesmo.</h2>
+                    <p class="text-slate-400 text-lg">Navegue e interaja com nossos trabalhos recentes diretamente daqui.</p>
+                </div>
+            </div>
+
+            <div class="relative">
+                
+                <div id="project-1" class="flex flex-col animate-fade-in w-full">
+                    <div class="mb-3 text-center md:text-left">
+                        <div class="flex justify-center md:justify-start items-center gap-3 mb-2">
+                            <span class="px-3 py-1 text-sm font-semibold bg-orange-500/20 text-orange-400 rounded-full border border-orange-500/30">Gastronomia</span>
+                            <span class="px-3 py-1 text-sm font-semibold bg-slate-800 text-slate-300 rounded-full border border-slate-700">Landing Page</span>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold text-white mb-1">Sabor Andino - Restaurante</h3>
+                        <p class="text-slate-400 text-base">Projeto de teste para um restaurante.</p>
+                    </div>
+                    
+                    <div class="group rounded-2xl overflow-hidden border border-slate-700 bg-slate-900 shadow-2xl flex flex-col h-[400px] md:h-[480px] transition-colors duration-300 hover:border-slate-500">
+                        <div class="h-10 bg-slate-800 flex items-center px-4 gap-2 border-b border-slate-700 transition-colors duration-300 group-hover:bg-slate-700">
+                            <div class="flex gap-1.5">
+                                <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                            </div>
+                            <div class="ml-4 bg-slate-900 rounded px-3 py-1 text-sm text-slate-400 flex-1 flex items-center gap-2 overflow-hidden whitespace-nowrap">
+                                <i data-lucide="lock" class="w-3 h-3 text-emerald-500"></i>
+                                https://sasaveel.github.io/Sabor-Andino/
+                            </div>
+                            <a href="https://sasaveel.github.io/Sabor-Andino/" target="_blank" class="text-slate-400 hover:text-white transition-colors" title="Abrir em nova aba">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                        <div class="flex-1 w-full bg-dark">
+                            <iframe 
+                                src="https://sasaveel.github.io/Sabor-Andino/" 
+                                title="Sabor Andino"
+                                class="w-full h-full border-0 opacity-40 grayscale-[30%] pointer-events-none transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0 group-hover:pointer-events-auto"
+                                loading="lazy">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="project-2" class="hidden flex flex-col w-full">
+                    <div class="mb-3 text-center md:text-left">
+                        <div class="flex justify-center md:justify-start items-center gap-3 mb-2">
+                            <span class="px-3 py-1 text-sm font-semibold bg-blue-500/20 text-blue-400 rounded-full border border-blue-500/30">Serviços</span>
+                            <span class="px-3 py-1 text-sm font-semibold bg-slate-800 text-slate-300 rounded-full border border-slate-700">One-Page</span>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold text-white mb-1">João Detailer - Estética Automotiva</h3>
+                        <p class="text-slate-400 text-base">Feito em março de 2026 para João Detailer.</p>
+                    </div>
+                    
+                    <div class="group rounded-2xl overflow-hidden border border-slate-700 bg-slate-900 shadow-2xl flex flex-col h-[400px] md:h-[480px] transition-colors duration-300 hover:border-slate-500">
+                        <div class="h-10 bg-slate-800 flex items-center px-4 gap-2 border-b border-slate-700 transition-colors duration-300 group-hover:bg-slate-700">
+                            <div class="flex gap-1.5">
+                                <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                            </div>
+                            <div class="ml-4 bg-slate-900 rounded px-3 py-1 text-sm text-slate-400 flex-1 flex items-center gap-2 overflow-hidden whitespace-nowrap">
+                                <i data-lucide="lock" class="w-3 h-3 text-emerald-500"></i>
+                                https://sasaveel.github.io/JD-space/
+                            </div>
+                            <a href="https://sasaveel.github.io/JD-space/" target="_blank" class="text-slate-400 hover:text-white transition-colors" title="Abrir em nova aba">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                        <div class="flex-1 w-full bg-dark">
+                            <iframe 
+                                src="https://sasaveel.github.io/JD-space/" 
+                                title="João Detailer"
+                                class="w-full h-full border-0 opacity-40 grayscale-[30%] pointer-events-none transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0 group-hover:pointer-events-auto"
+                                loading="lazy">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-center items-center gap-6 mt-8">
+                    <button onclick="prevProject()" class="p-3 rounded-full bg-slate-800 hover:bg-primary text-slate-300 hover:text-white transition-all border border-slate-700 hover:border-primary shadow-lg hover:shadow-primary/20">
+                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                    </button>
+                    
+                    <div class="flex gap-3">
+                        <button onclick="showProject(1)" id="dot-1" class="w-3 h-3 rounded-full bg-primary transition-colors cursor-pointer" aria-label="Ver projeto 1"></button>
+                        <button onclick="showProject(2)" id="dot-2" class="w-3 h-3 rounded-full bg-slate-600 hover:bg-slate-400 transition-colors cursor-pointer" aria-label="Ver projeto 2"></button>
+                    </div>
+
+                    <button onclick="nextProject()" class="p-3 rounded-full bg-slate-800 hover:bg-primary text-slate-300 hover:text-white transition-all border border-slate-700 hover:border-primary shadow-lg hover:shadow-primary/20">
+                        <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="py-24 relative bg-slate-900/50 border-y border-slate-800">
+        <div class="max-w-3xl mx-auto px-4">
+            
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Inicie sua transformação cotando seu projeto</h2>
+                <p class="text-slate-400 text-lg">Preencha o formulário e enviaremos uma proposta diretamente pelo WhatsApp.</p>
+            </div>
+
+            <div class="bg-slate-800/80 backdrop-blur-sm p-8 md:p-10 rounded-3xl border border-slate-700 shadow-xl">
+                
+                <div class="flex items-center justify-center gap-3 mb-8 pb-6 border-b border-slate-700">
+                    <i data-lucide="clipboard-edit" class="text-white w-6 h-6"></i>
+                    <h3 class="text-xl font-bold text-white">Formulário de Pré-avaliação</h3>
+                </div>
+
+                <form id="cotizacionForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block flex items-center gap-2 text-base font-medium text-slate-300 mb-2">
+                                <i data-lucide="user" class="w-4 h-4 text-primary"></i> Nome Completo *
+                            </label>
+                            <input type="text" id="formNombre" required placeholder="Ex: Carlos Silva" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-slate-600">
+                        </div>
+                        <div>
+                            <label class="block flex items-center gap-2 text-base font-medium text-slate-300 mb-2">
+                                <i data-lucide="briefcase" class="w-4 h-4 text-orange-400"></i> Nome da sua Empresa / Negócio
+                            </label>
+                            <input type="text" id="formEmpresa" placeholder="Ex: Sabor Andino" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-slate-600">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block flex items-center gap-2 text-base font-medium text-slate-300 mb-2">
+                            <i data-lucide="mail" class="w-4 h-4 text-indigo-400"></i> E-mail
+                        </label>
+                        <input type="email" id="formEmail" placeholder="seu@email.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-slate-600">
+                    </div>
+
+                    <div>
+                        <label class="block flex items-center gap-2 text-base font-medium text-slate-300 mb-2">
+                            <i data-lucide="message-square" class="w-4 h-4 text-emerald-400"></i> Do que se trata o seu negócio e do que você precisa? *
+                        </label>
+                        <textarea id="formMensaje" required rows="4" placeholder="Conte-nos um pouco sobre seus serviços e qual objetivo você tem com o site..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-slate-600 resize-none"></textarea>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="button" onclick="enviarAlWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-xl px-6 py-4 font-bold text-lg transition-all flex items-center justify-center gap-3 shadow-lg shadow-[#25D366]/20">
+                            <i data-lucide="message-circle" class="w-6 h-6"></i> Enviar pelo WhatsApp
+                        </button>
+                        <p class="text-center text-slate-500 text-sm mt-4">
+                            Seus dados não são salvos. Você será redirecionado ao WhatsApp para enviar a mensagem.
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-slate-800 bg-dark py-12">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-center md:text-left">
+            
+            <div class="flex flex-col items-center md:items-start">
+                <div class="flex items-center z-10">
+                    <img src="logo-aqua.png" alt="Aqua Studio Logo" class="h-16 w-auto object-contain scale-[1.7] origin-center md:origin-left">
+                </div>
+                <!-- Margin negativo (-mt-2) aplicado aquí para absorber el espacio extra del escalado y alinear correctamente a la izquierda -->
+                <p class="text-slate-400 text-base -mt-2 relative z-20 md:text-left w-full text-center">
+                    Especialistas em Desenvolvimento Web Profissional.
+                </p>
+            </div>
+
+            <div class="flex justify-center gap-4">
+                <a href="#" class="w-12 h-12 bg-slate-800 hover:bg-primary hover:text-white text-slate-300 rounded-full flex items-center justify-center transition-colors shadow-lg">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i>
+                </a>
+                <!-- Ícone do Instagram removido como solicitado -->
+            </div>
+
+            <div class="flex flex-col items-center md:items-end gap-2 text-base text-slate-400">
+                <div class="flex items-center gap-2 text-slate-300">
+                    <i data-lucide="phone" class="w-4 h-4"></i>
+                    <span>+55 67 9926-1158</span>
+                </div>
+                <p>
+                    © 2026 Aqua Studio. Todos os direitos reservados.
+                </p>
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // --- Efeito Smart Header ---
+        let lastScrollTop = 0;
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                navbar.style.transform = 'translateY(-100%)';
+            } else {
+                navbar.style.transform = 'translateY(0)';
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
+        }, { passive: true });
+
+        // --- Lógica do Carrossel de Projetos ---
+        let currentProject = 1;
+        const totalProjects = 2;
+
+        function showProject(index) {
+            for(let i=1; i<=totalProjects; i++) {
+                const proj = document.getElementById(`project-${i}`);
+                const dot = document.getElementById(`dot-${i}`);
+                
+                proj.classList.add('hidden');
+                proj.classList.remove('animate-fade-in');
+                
+                dot.classList.remove('bg-primary');
+                dot.classList.add('bg-slate-600');
+            }
+            
+            const activeProj = document.getElementById(`project-${index}`);
+            const activeDot = document.getElementById(`dot-${index}`);
+            
+            activeProj.classList.remove('hidden');
+            void activeProj.offsetWidth;
+            activeProj.classList.add('animate-fade-in');
+            
+            activeDot.classList.remove('bg-slate-600');
+            activeDot.classList.add('bg-primary');
+            
+            currentProject = index;
+        }
+
+        function nextProject() {
+            let next = currentProject + 1;
+            if (next > totalProjects) next = 1;
+            showProject(next);
+        }
+
+        function prevProject() {
+            let prev = currentProject - 1;
+            if (prev < 1) prev = totalProjects;
+            showProject(prev);
+        }
+
+        // --- Função para o WhatsApp ---
+        function enviarAlWhatsApp() {
+            const nombre = document.getElementById('formNombre').value;
+            const empresa = document.getElementById('formEmpresa').value || 'Não especificado';
+            const email = document.getElementById('formEmail').value || 'Não especificado';
+            const mensaje = document.getElementById('formMensaje').value;
+
+            if(!nombre || !mensaje) {
+                alert("Por favor, preencha seu Nome e os detalhes do seu projeto.");
+                return;
+            }
+
+            const telefonoDestino = "556799261158"; 
+
+            const textoWhatsApp = `Olá Aqua Studio! 👋\nGostaria de fazer um orçamento para um site.\n\n👤 *Nome:* ${nombre}\n🏢 *Empresa:* ${empresa}\n📧 *Email:* ${email}\n\n📝 *Detalhes do projeto:*\n${mensaje}`;
+            const textoCodificado = encodeURIComponent(textoWhatsApp);
+            const urlFinal = `https://wa.me/${telefonoDestino}?text=${textoCodificado}`;
+
+            window.open(urlFinal, '_blank');
+        }
+    </script>
+</body>
+</html>

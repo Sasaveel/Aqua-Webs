@@ -11,7 +11,7 @@
     <style>
         body { 
             font-family: 'Inter', sans-serif;
-            background-color: #020617; /* Slate 950 - Dark base */
+            background-color: #01040a;
         }
         .gradient-text {
             background-clip: text;
@@ -20,24 +20,73 @@
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
+            opacity: 0;
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* Ruido granulado global para efecto premium */
-        .noise-overlay {
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+
+        /* EFECTO RAYOS DE LUZ FLUIDOS */
+        .fluid-rays-container {
             position: fixed;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100vw;
             height: 100vh;
+            overflow: hidden;
             pointer-events: none;
-            z-index: 9999;
-            opacity: 0.05;
-            background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+            z-index: 0;
+        }
+
+        .fluid-ray {
+            position: absolute;
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.15) 0%, rgba(6, 182, 212, 0.05) 40%, transparent 70%);
+            border-radius: 100%;
+            filter: blur(40px);
+            will-change: transform, opacity; /* Optimización de renderizado */
+        }
+
+        .ray-1 {
+            width: 160vw; height: 250px; 
+            top: 10%; left: -30%;
+            --base-rot: -20deg;
+            animation: rayPulse1 8s infinite alternate ease-in-out;
+        }
+
+        .ray-2 {
+            width: 180vw; height: 350px; 
+            top: 40%; left: -40%;
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.18) 0%, rgba(20, 184, 166, 0.04) 50%, transparent 70%);
+            --base-rot: -12deg;
+            animation: rayPulse2 10s infinite alternate ease-in-out -3s;
+        }
+
+        .ray-3 {
+            width: 150vw; height: 280px; 
+            bottom: 10%; left: -20%;
+            --base-rot: -28deg;
+            animation: rayPulse3 12s infinite alternate ease-in-out -6s;
+        }
+
+        @keyframes rayPulse1 {
+            0% { opacity: 0; transform: rotate(var(--base-rot)) translateY(-40px) scaleY(0.8); }
+            50% { opacity: 1; transform: rotate(calc(var(--base-rot) + 4deg)) translateY(20px) scaleY(1.3); }
+            100% { opacity: 0; transform: rotate(calc(var(--base-rot) - 3deg)) translateY(-20px) scaleY(0.9); }
+        }
+        @keyframes rayPulse2 {
+            0% { opacity: 0.1; transform: rotate(var(--base-rot)) translateY(30px) scaleY(1); }
+            50% { opacity: 0.9; transform: rotate(calc(var(--base-rot) - 5deg)) translateY(-30px) scaleY(1.5); }
+            100% { opacity: 0; transform: rotate(calc(var(--base-rot) + 3deg)) translateY(40px) scaleY(0.8); }
+        }
+        @keyframes rayPulse3 {
+            0% { opacity: 0; transform: rotate(var(--base-rot)) translateY(-20px) scaleY(0.9); }
+            50% { opacity: 0.8; transform: rotate(calc(var(--base-rot) + 6deg)) translateY(50px) scaleY(1.2); }
+            100% { opacity: 0.1; transform: rotate(calc(var(--base-rot) - 3deg)) translateY(-40px) scaleY(1); }
         }
 
         .transform-style-3d {
@@ -50,28 +99,32 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#3b82f6', // blue-500
-                        dark: '#020617', // slate-950
-                        panel: '#0f172a', // slate-900
+                        primary: '#3b82f6',
+                        dark: '#01040a',
+                        panel: '#0f172a',
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-dark text-slate-200 antialiased selection:bg-blue-500 selection:text-white">
+<body class="bg-dark text-slate-200 antialiased selection:bg-blue-500 selection:text-white overflow-x-hidden relative">
 
-    <!-- Capa de ruido global -->
-    <div class="noise-overlay"></div>
+    <!-- Contenedor de Rayos Fluidos Global (Fondo Fijo) -->
+    <div class="fluid-rays-container mix-blend-screen">
+        <div class="fluid-ray ray-1"></div>
+        <div class="fluid-ray ray-2"></div>
+        <div class="fluid-ray ray-3"></div>
+    </div>
 
-    <!-- Navegación -->
-    <nav id="navbar" class="fixed w-full z-50 bg-dark/80 backdrop-blur-md border-b border-slate-800/50 transition-transform duration-300 transform translate-y-0">
+    <!-- Navegación Estática y Optimizada -->
+    <nav class="fixed top-0 w-full z-50 bg-[#01040a]/80 backdrop-blur-md border-b border-slate-800/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16 relative">
+            <div class="flex justify-between items-center h-16 md:h-20 relative">
                 
                 <!-- Logo -->
-                <div class="flex items-center cursor-pointer w-1/3 z-10">
-                    <img src="logo-aqua.png" alt="Aqua Studio Logo" class="h-[116px] w-auto object-contain relative z-20 origin-left">
+                <div class="flex items-center w-1/3 z-10 relative h-full">
+                    <img src="logo-aqua.png" alt="Aqua Studio Logo" class="absolute top-1/2 -translate-y-1/2 left-0 h-[90px] md:h-[150px] w-auto object-contain z-20 origin-left drop-shadow-xl cursor-pointer">
                 </div>
                 
                 <!-- Enlaces -->
@@ -83,7 +136,7 @@
                 
                 <!-- Botón -->
                 <div class="flex justify-end w-1/3 z-10">
-                    <a href="https://wa.me/556799261158?text=Ol%C3%A1%20Aqua%20Studio!%20%F0%9F%91%8B%0AGostaria%20de%20saber%20mais%20sobre%20a%20cria%C3%A7%C3%A3o%20de%20sites." target="_blank" class="bg-primary hover:bg-blue-600 text-white px-4 md:px-5 py-2 rounded-lg font-medium transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] text-sm md:text-base whitespace-nowrap flex items-center gap-2">
+                    <a href="https://wa.me/556799261158?text=Ol%C3%A1%20Aqua%20Studio!%20%F0%9F%91%8B%0AGostaria%20de%20saber%20mais%20sobre%20a%20cria%C3%A7%C3%A3o%20de%20sites." target="_blank" class="bg-primary hover:bg-blue-600 text-white px-4 md:px-5 py-2 rounded-lg font-medium transition-colors shadow-[0_0_20px_rgba(59,130,246,0.3)] text-sm md:text-base whitespace-nowrap flex items-center gap-2">
                         Fale conosco
                     </a>
                 </div>
@@ -93,87 +146,70 @@
     </nav>
 
     <!-- Sección Hero -->
-    <section id="inicio" class="min-h-screen flex flex-col justify-center pt-32 pb-16 px-4 relative overflow-hidden">
+    <section id="inicio" class="min-h-screen flex flex-col justify-center pt-28 md:pt-32 pb-16 px-4 relative z-10">
         
-        <!-- Resplandor Diagonal estilo Waypoint -->
-        <div class="absolute top-0 left-0 w-full h-[150%] pointer-events-none" style="background: radial-gradient(ellipse at 10% -10%, rgba(59, 130, 246, 0.45) 0%, transparent 60%);"></div>
-        <div class="absolute top-[-20%] left-[-10%] w-[120%] h-[120%] pointer-events-none transform -rotate-12" style="background: linear-gradient(180deg, rgba(79, 70, 229, 0.15) 0%, transparent 40%);"></div>
-
-        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center relative z-20">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center relative z-20 -translate-y-[10px]">
             
             <!-- Izquierda: Texto -->
-            <div class="text-left mt-7 lg:mt-0">
-                <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight tracking-tight">
+            <div class="text-left mt-7 lg:mt-0 z-30">
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight tracking-tight animate-fade-in">
                     Eleve a presença do seu negocio agora
-                    <span class="bg-gradient-to-r from-blue-300 to-indigo-400 gradient-text">com aqua</span>
+                    <span class="bg-gradient-to-r from-cyan-300 to-teal-400 gradient-text drop-shadow-[0_0_15px_rgba(6,182,212,0.4)]">com aqua</span>
                 </h1>
                 
-                <p class="text-lg md:text-xl text-slate-400 mb-10 max-w-lg font-light leading-relaxed">
+                <p class="text-lg md:text-xl text-slate-300 mb-10 max-w-lg font-light leading-relaxed animate-fade-in delay-100">
                     Criamos sites rápidos, atraentes e focados em converter visitantes em clientes. Seu negócio merece uma presença online que inspire confiança.
                 </p>
                 
-                <div class="flex flex-col sm:flex-row items-center gap-4">
-                    <a href="#contacto" class="w-full sm:w-auto px-8 py-3.5 bg-white text-dark hover:bg-slate-100 rounded-lg font-bold text-base transition-all shadow-[0_0_30px_rgba(255,255,255,0.15)] text-center">
+                <div class="flex flex-col sm:flex-row items-center gap-4 animate-fade-in delay-200">
+                    <a href="#contacto" class="w-full sm:w-auto px-8 py-3.5 bg-white text-dark hover:bg-slate-100 rounded-lg font-bold text-base transition-colors shadow-[0_0_30px_rgba(255,255,255,0.15)] text-center">
                         Faça seu projeto
                     </a>
-                    <a href="#ventajas" class="w-full sm:w-auto px-8 py-3.5 border border-slate-700 hover:border-slate-500 hover:bg-slate-800/50 text-white rounded-lg font-semibold text-base transition-all flex items-center justify-center gap-2">
+                    <a href="#ventajas" class="w-full sm:w-auto px-8 py-3.5 border border-slate-700 hover:border-slate-500 hover:bg-slate-800/50 text-white rounded-lg font-semibold text-base transition-colors flex items-center justify-center gap-2">
                         Ler detalhes <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
                     </a>
                 </div>
             </div>
 
             <!-- Derecha: Mockups Estáticos con Volumen y Reflejos -->
-            <div class="relative w-full h-[600px] sm:h-[400px] flex justify-center lg:justify-end items-center perspective-1000">
+            <div class="relative w-full h-[320px] sm:h-[450px] lg:h-[500px] flex justify-center lg:justify-end items-center perspective-1000 mt-8 lg:mt-0 animate-fade-in delay-300">
                 
-                <!-- Mockup Laptop -->
-                <div style="transform: perspective(1200px) rotateY(-20deg) rotateX(4deg) rotateZ(-2deg);" class="absolute right-4 sm:right-10 top-10 w-[85%] sm:w-[500px] h-[260px] sm:h-[290px] transform-style-3d">
-                    <div class="absolute inset-0 bg-panel rounded-t-xl border-[6px] border-[#1e293b] border-b-[15px] border-b-panel shadow-[rgba(0,0,0,0.6)_0px_15px_50px_-10px] overflow-hidden z-10 flex flex-col">
+                <!-- Mockup Laptop Responsivo -->
+                <div style="transform: perspective(1200px) rotateY(-20deg) rotateX(4deg) rotateZ(-2deg);" class="absolute right-0 sm:right-10 top-0 sm:top-10 w-[85%] max-w-[340px] sm:max-w-none sm:w-[460px] lg:w-[500px] h-[200px] sm:h-[260px] lg:h-[290px] transform-style-3d z-10">
+                    <div class="absolute inset-0 bg-panel rounded-t-xl border-[4px] sm:border-[6px] border-[#1e293b] border-b-[10px] sm:border-b-[15px] border-b-panel shadow-[rgba(0,0,0,0.6)_0px_15px_50px_-10px] overflow-hidden z-10 flex flex-col">
                         <div class="flex-1 w-full bg-black relative">
-                            <!-- Imagen insertada de Laptop -->
                             <img src="image_19fa43.jpg" class="w-full h-full" style="object-fit: fill;" alt="Tech Dashboard">
-                            
-                            <!-- Reflejo de Pantalla (Glare) -->
                             <div class="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-80 pointer-events-none transform -skew-x-12 translate-x-1/4"></div>
                         </div>
                     </div>
-                    <!-- Base / Volumen Laptop -->
-                    <div class="absolute -bottom-[12px] -left-[8px] w-[104%] h-[20px] bg-[#020617] rounded-b-xl z-0 transform skew-x-[15deg] shadow-[0_30px_60px_rgba(0,0,0,0.7)]"></div>
+                    <div class="absolute -bottom-[8px] sm:-bottom-[12px] -left-[8px] w-[104%] h-[15px] sm:h-[20px] bg-[#020617] rounded-b-xl z-0 transform skew-x-[15deg] shadow-[0_30px_60px_rgba(0,0,0,0.7)]"></div>
                 </div>
 
-                <!-- Mockup iPhone -->
-                <div style="transform: perspective(1200px) rotateY(-25deg) rotateX(2deg) rotateZ(-4deg);" class="absolute left-4 sm:left-10 bottom-0 w-[130px] sm:w-[160px] h-[270px] sm:h-[330px] transform-style-3d">
-                    <!-- Cuerpo del celular -->
-                    <div class="absolute inset-0 bg-panel rounded-[2rem] border-[4px] border-[#334155] shadow-[-10px_20px_40px_rgba(0,0,0,0.6)] overflow-hidden z-10">
-                        <!-- Notch / Dynamic Island -->
-                        <div class="absolute top-2 left-1/2 -translate-x-1/2 w-[45%] h-[12px] bg-[#1e293b] rounded-full z-20 shadow-inner"></div>
-                        
+                <!-- Mockup iPhone Responsivo -->
+                <div style="transform: perspective(1200px) rotateY(-25deg) rotateX(2deg) rotateZ(-4deg);" class="absolute left-2 sm:left-10 -bottom-4 sm:bottom-0 w-[110px] sm:w-[140px] lg:w-[160px] h-[230px] sm:h-[290px] lg:h-[330px] transform-style-3d z-20">
+                    <div class="absolute inset-0 bg-panel rounded-[1.5rem] sm:rounded-[2rem] border-[3px] sm:border-[4px] border-[#334155] shadow-[-10px_20px_40px_rgba(0,0,0,0.6)] overflow-hidden z-10">
+                        <div class="absolute top-2 left-1/2 -translate-x-1/2 w-[45%] h-[8px] sm:h-[12px] bg-[#1e293b] rounded-full z-20 shadow-inner"></div>
                         <div class="w-full h-full relative">
-                            <!-- Imagen insertada de iPhone -->
                             <img src="WhatsApp Image 2026-05-16 at 9.51.35 PM.jpeg" class="w-full h-full" style="object-fit: fill;" alt="Mobile App">
-                            
-                            <!-- Reflejo de Pantalla curvo (Glare) -->
-                            <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-white/30 pointer-events-none rounded-[2rem]"></div>
+                            <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-white/30 pointer-events-none rounded-[1.5rem] sm:rounded-[2rem]"></div>
                         </div>
                     </div>
-                    <!-- Grosor lateral / Volumen iPhone -->
-                    <div class="absolute top-[6px] -right-[5px] w-[100%] h-[98%] bg-panel rounded-[2rem] z-0 shadow-[-20px_10px_30px_rgba(0,0,0,0.7)] border border-white/10"></div>
+                    <div class="absolute top-[4px] sm:top-[6px] -right-[4px] sm:-right-[5px] w-[100%] h-[98%] bg-panel rounded-[1.5rem] sm:rounded-[2rem] z-0 shadow-[-20px_10px_30px_rgba(0,0,0,0.7)] border border-white/10"></div>
                 </div>
 
             </div>
-
         </div>
     </section>
 
-    <!-- Sección Ventajas (Tarjetas Glassmorphism) -->
-    <section id="ventajas" class="py-24 border-y border-slate-800/50 bg-[#04081b] relative">
+    <!-- Sección Ventajas -->
+    <section id="ventajas" class="py-24 border-y border-slate-800/50 bg-transparent relative z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-white">Por que trabalhar conosco?</h2>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Tarjeta 1 -->
-                <div class="p-8 rounded-xl bg-panel/40 border border-slate-800 hover:bg-panel/80 hover:border-slate-700 transition-all duration-300">
+                <div class="p-8 rounded-xl bg-panel/30 backdrop-blur-md border border-slate-800 hover:bg-panel/60 hover:border-slate-700 transition-colors duration-300">
                     <div class="w-12 h-12 bg-blue-500/10 border border-blue-500/20 text-primary rounded-lg flex items-center justify-center mb-6">
                         <i data-lucide="zap" class="w-6 h-6"></i>
                     </div>
@@ -183,9 +219,8 @@
                     </p>
                 </div>
                 
-                <!-- Tarjeta 2 -->
-                <div class="p-8 rounded-xl bg-panel/40 border border-slate-800 hover:bg-panel/80 hover:border-slate-700 transition-all duration-300">
-                    <div class="w-12 h-12 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-lg flex items-center justify-center mb-6">
+                <div class="p-8 rounded-xl bg-panel/30 backdrop-blur-md border border-slate-800 hover:bg-panel/60 hover:border-slate-700 transition-colors duration-300">
+                    <div class="w-12 h-12 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 rounded-lg flex items-center justify-center mb-6">
                         <i data-lucide="smartphone" class="w-6 h-6"></i>
                     </div>
                     <h3 class="text-xl font-semibold text-white mb-3">Design Responsivo</h3>
@@ -194,9 +229,8 @@
                     </p>
                 </div>
                 
-                <!-- Tarjeta 3 -->
-                <div class="p-8 rounded-xl bg-panel/40 border border-slate-800 hover:bg-panel/80 hover:border-slate-700 transition-all duration-300">
-                    <div class="w-12 h-12 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg flex items-center justify-center mb-6">
+                <div class="p-8 rounded-xl bg-panel/30 backdrop-blur-md border border-slate-800 hover:bg-panel/60 hover:border-slate-700 transition-colors duration-300">
+                    <div class="w-12 h-12 bg-teal-500/10 border border-teal-500/20 text-teal-400 rounded-lg flex items-center justify-center mb-6">
                         <i data-lucide="target" class="w-6 h-6"></i>
                     </div>
                     <h3 class="text-xl font-semibold text-white mb-3">Foco em Resultados</h3>
@@ -208,8 +242,8 @@
         </div>
     </section>
 
-    <!-- Sección Portafolio -->
-    <section id="portafolio" class="py-24 px-4 relative z-10">
+    <!-- Sección Portafolio (Optimizada sin iframes) -->
+    <section id="portafolio" class="py-24 px-4 relative z-10 bg-transparent">
         <div class="max-w-5xl mx-auto">
             <div class="flex flex-col md:flex-row justify-between items-end mb-6">
                 <div class="max-w-2xl">
@@ -229,7 +263,7 @@
                         <h3 class="text-2xl font-semibold text-white mb-1">Sabor Andino - Restaurante</h3>
                     </div>
                     
-                    <div class="group rounded-xl overflow-hidden border border-slate-800 bg-panel shadow-2xl flex flex-col h-[400px] md:h-[500px] transition-colors duration-300 hover:border-slate-600">
+                    <div class="group rounded-xl overflow-hidden border border-slate-800 bg-panel shadow-2xl flex flex-col h-[400px] md:h-[500px] transition-colors duration-300 hover:border-cyan-600/50">
                         <div class="h-10 bg-slate-900/50 flex items-center px-4 gap-2 border-b border-slate-800 transition-colors duration-300">
                             <div class="flex gap-1.5">
                                 <div class="w-2.5 h-2.5 rounded-full bg-slate-600 group-hover:bg-red-500/90 transition-colors"></div>
@@ -244,17 +278,15 @@
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
                         </div>
-                        <div class="flex-1 w-full bg-black relative">
-                            <div class="absolute inset-0 flex items-center justify-center z-10 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none">
-                                <span class="bg-black/80 backdrop-blur-sm text-white px-4 py-2 rounded-lg font-medium text-sm border border-white/10">Interaja com o site abaixo</span>
+                        <!-- Enlace directo como contenedor de imagen (Reemplazo del iframe) -->
+                        <a href="https://sasaveel.github.io/Sabor-Andino/" target="_blank" class="flex-1 w-full bg-black relative block cursor-pointer group/link">
+                            <div class="absolute inset-0 flex items-center justify-center z-10 opacity-100 md:opacity-0 transition-opacity duration-300 pointer-events-none md:group-hover/link:opacity-100 bg-black/40 md:bg-transparent backdrop-blur-[2px] md:backdrop-blur-none">
+                                <span class="bg-[#020617]/90 backdrop-blur-md text-white px-5 py-3 rounded-lg font-semibold text-sm border border-cyan-500/30 shadow-[0_0_20px_rgba(6,182,212,0.2)] flex items-center gap-2 transition-transform transform scale-95 md:group-hover/link:scale-100">
+                                    Acessar o site <i data-lucide="external-link" class="w-4 h-4"></i>
+                                </span>
                             </div>
-                            <iframe 
-                                src="https://sasaveel.github.io/Sabor-Andino/" 
-                                title="Sabor Andino"
-                                class="w-full h-full border-0 opacity-50 grayscale-[50%] transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
-                                loading="lazy">
-                            </iframe>
-                        </div>
+                            <img src="image_19fa43.jpg" alt="Preview Sabor Andino" class="w-full h-full object-cover object-top opacity-70 grayscale-[30%] transition-all duration-500 group-hover/link:opacity-100 group-hover/link:grayscale-0">
+                        </a>
                     </div>
                 </div>
 
@@ -268,7 +300,7 @@
                         <h3 class="text-2xl font-semibold text-white mb-1">João Detailer - Estética</h3>
                     </div>
                     
-                    <div class="group rounded-xl overflow-hidden border border-slate-800 bg-panel shadow-2xl flex flex-col h-[400px] md:h-[500px] transition-colors duration-300 hover:border-slate-600">
+                    <div class="group rounded-xl overflow-hidden border border-slate-800 bg-panel shadow-2xl flex flex-col h-[400px] md:h-[500px] transition-colors duration-300 hover:border-cyan-600/50">
                         <div class="h-10 bg-slate-900/50 flex items-center px-4 gap-2 border-b border-slate-800 transition-colors duration-300">
                             <div class="flex gap-1.5">
                                 <div class="w-2.5 h-2.5 rounded-full bg-slate-600 group-hover:bg-red-500/90 transition-colors"></div>
@@ -283,32 +315,30 @@
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
                         </div>
-                        <div class="flex-1 w-full bg-black relative">
-                            <div class="absolute inset-0 flex items-center justify-center z-10 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none">
-                                <span class="bg-black/80 backdrop-blur-sm text-white px-4 py-2 rounded-lg font-medium text-sm border border-white/10">Interaja com o site abaixo</span>
+                        <!-- Enlace directo como contenedor de imagen (Reemplazo del iframe) -->
+                        <a href="https://sasaveel.github.io/JD-space/" target="_blank" class="flex-1 w-full bg-black relative block cursor-pointer group/link">
+                            <div class="absolute inset-0 flex items-center justify-center z-10 opacity-100 md:opacity-0 transition-opacity duration-300 pointer-events-none md:group-hover/link:opacity-100 bg-black/40 md:bg-transparent backdrop-blur-[2px] md:backdrop-blur-none">
+                                <span class="bg-[#020617]/90 backdrop-blur-md text-white px-5 py-3 rounded-lg font-semibold text-sm border border-cyan-500/30 shadow-[0_0_20px_rgba(6,182,212,0.2)] flex items-center gap-2 transition-transform transform scale-95 md:group-hover/link:scale-100">
+                                    Acessar o site <i data-lucide="external-link" class="w-4 h-4"></i>
+                                </span>
                             </div>
-                            <iframe 
-                                src="https://sasaveel.github.io/JD-space/" 
-                                title="João Detailer"
-                                class="w-full h-full border-0 opacity-50 grayscale-[50%] transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
-                                loading="lazy">
-                            </iframe>
-                        </div>
+                            <img src="WhatsApp Image 2026-05-16 at 9.51.35 PM.jpeg" alt="Preview João Detailer" class="w-full h-full object-cover object-top opacity-70 grayscale-[30%] transition-all duration-500 group-hover/link:opacity-100 group-hover/link:grayscale-0">
+                        </a>
                     </div>
                 </div>
 
                 <!-- Controles -->
                 <div class="flex justify-center items-center gap-6 mt-8">
-                    <button onclick="prevProject()" class="p-2 rounded-lg bg-panel hover:bg-slate-800 text-slate-400 hover:text-white transition-all border border-slate-800">
+                    <button onclick="prevProject()" class="p-2 rounded-lg bg-panel hover:bg-slate-800 text-slate-400 hover:text-white transition-colors border border-slate-800 backdrop-blur-sm">
                         <i data-lucide="chevron-left" class="w-5 h-5"></i>
                     </button>
                     
                     <div class="flex gap-2">
-                        <button onclick="showProject(1)" id="dot-1" class="w-8 h-2 rounded-[4px] bg-primary transition-all duration-300 cursor-pointer" aria-label="Ver projeto 1"></button>
-                        <button onclick="showProject(2)" id="dot-2" class="w-4 h-2 rounded-[4px] bg-slate-700 hover:bg-slate-500 transition-all duration-300 cursor-pointer" aria-label="Ver projeto 2"></button>
+                        <button onclick="showProject(1)" id="dot-1" class="w-8 h-2 rounded-[4px] bg-cyan-500 transition-colors duration-300 cursor-pointer" aria-label="Ver projeto 1"></button>
+                        <button onclick="showProject(2)" id="dot-2" class="w-4 h-2 rounded-[4px] bg-slate-700 hover:bg-slate-500 transition-colors duration-300 cursor-pointer" aria-label="Ver projeto 2"></button>
                     </div>
 
-                    <button onclick="nextProject()" class="p-2 rounded-lg bg-panel hover:bg-slate-800 text-slate-400 hover:text-white transition-all border border-slate-800">
+                    <button onclick="nextProject()" class="p-2 rounded-lg bg-panel hover:bg-slate-800 text-slate-400 hover:text-white transition-colors border border-slate-800 backdrop-blur-sm">
                         <i data-lucide="chevron-right" class="w-5 h-5"></i>
                     </button>
                 </div>
@@ -318,7 +348,7 @@
     </section>
 
     <!-- Sección Contacto -->
-    <section id="contacto" class="py-24 relative bg-[#04081b] border-y border-slate-800/50 z-10">
+    <section id="contacto" class="py-24 relative bg-transparent border-y border-slate-800/50 z-10">
         <div class="max-w-3xl mx-auto px-4">
             
             <div class="text-center mb-12">
@@ -326,11 +356,11 @@
                 <p class="text-slate-400 text-base">Preencha o formulário e enviaremos uma proposta diretamente pelo WhatsApp.</p>
             </div>
 
-            <div class="bg-panel/60 backdrop-blur-sm p-8 md:p-10 rounded-xl border border-slate-700 shadow-2xl">
+            <div class="bg-panel/40 backdrop-blur-md p-8 md:p-10 rounded-xl border border-slate-700 shadow-2xl">
                 
                 <div class="flex items-center gap-3 mb-8 pb-6 border-b border-slate-700/50">
-                    <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
-                        <i data-lucide="clipboard-edit" class="text-blue-400 w-5 h-5"></i>
+                    <div class="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20">
+                        <i data-lucide="clipboard-edit" class="text-cyan-400 w-5 h-5"></i>
                     </div>
                     <h3 class="text-xl font-semibold text-white">Formulário de Pré-avaliação</h3>
                 </div>
@@ -341,13 +371,13 @@
                             <label class="block text-sm font-medium text-slate-300 mb-2">
                                 Nome Completo *
                             </label>
-                            <input type="text" id="formNombre" required placeholder="Ex: Carlos Silva" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-slate-500 text-sm">
+                            <input type="text" id="formNombre" required placeholder="Ex: Carlos Silva" class="w-full bg-[#01040a]/80 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors placeholder:text-slate-500 text-sm">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-300 mb-2">
                                 Empresa / Negócio
                             </label>
-                            <input type="text" id="formEmpresa" placeholder="Ex: Aqua Tech" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-slate-500 text-sm">
+                            <input type="text" id="formEmpresa" placeholder="Ex: Aqua Tech" class="w-full bg-[#01040a]/80 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors placeholder:text-slate-500 text-sm">
                         </div>
                     </div>
 
@@ -355,14 +385,14 @@
                         <label class="block text-sm font-medium text-slate-300 mb-2">
                             E-mail
                         </label>
-                        <input type="email" id="formEmail" placeholder="seu@email.com" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-slate-500 text-sm">
+                        <input type="email" id="formEmail" placeholder="seu@email.com" class="w-full bg-[#01040a]/80 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors placeholder:text-slate-500 text-sm">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-slate-300 mb-2">
                             Objetivo do site *
                         </label>
-                        <textarea id="formMensaje" required rows="4" placeholder="Detalhe a visão técnica do seu projeto..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-slate-500 resize-none text-sm"></textarea>
+                        <textarea id="formMensaje" required rows="4" placeholder="Detalhe a visão técnica do seu projeto..." class="w-full bg-[#01040a]/80 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors placeholder:text-slate-500 resize-none text-sm"></textarea>
                     </div>
 
                     <div id="formError" class="hidden bg-red-900/30 text-red-400 border border-red-500/30 rounded-lg p-3 text-sm font-medium text-center">
@@ -370,7 +400,7 @@
                     </div>
 
                     <div class="pt-4">
-                        <button type="button" onclick="enviarAlWhatsApp()" class="w-full bg-white hover:bg-slate-200 text-dark rounded-lg px-6 py-4 font-bold text-base transition-all flex items-center justify-center gap-3">
+                        <button type="button" onclick="enviarAlWhatsApp()" class="w-full bg-white hover:bg-slate-200 text-dark rounded-lg px-6 py-4 font-bold text-base transition-colors flex items-center justify-center gap-3">
                             <i data-lucide="send" class="w-5 h-5"></i> Enviar pelo WhatsApp
                         </button>
                         <p class="text-center text-slate-500 text-xs mt-4">
@@ -383,12 +413,12 @@
     </section>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-800 bg-dark py-12 relative z-10">
+    <footer class="border-t border-slate-800 bg-transparent py-12 relative z-10">
         <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-center md:text-left">
             
             <div class="flex flex-col items-center md:items-start">
                 <div class="flex items-center z-10">
-                    <img src="logo-aqua.png" alt="Aqua Studio Logo" class="h-[90px] w-auto object-contain origin-center md:origin-left">
+                    <img src="logo-aqua.png" alt="Aqua Studio Logo" class="h-[100px] md:h-[130px] w-auto object-contain origin-center md:origin-left transition-transform duration-300">
                 </div>
                 <p class="text-slate-400 text-sm mt-4 relative z-20 md:text-left w-full text-center">
                     Desenvolvimento Web com estrategia
@@ -397,7 +427,7 @@
 
             <!-- WhatsApp Footer Icon -->
             <div class="flex justify-center gap-4">
-                <a href="https://wa.me/556799261158" target="_blank" class="w-10 h-10 bg-panel border border-slate-700 hover:border-[#25D366] hover:text-[#25D366] text-slate-400 rounded-lg flex items-center justify-center transition-colors shadow-lg">
+                <a href="https://wa.me/556799261158" target="_blank" class="w-10 h-10 bg-panel/50 backdrop-blur-md border border-slate-700 hover:border-[#25D366] hover:text-[#25D366] text-slate-400 rounded-lg flex items-center justify-center transition-colors shadow-lg">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
                     </svg>
@@ -418,23 +448,7 @@
     </footer>
 
     <script>
-        // Inicializar iconos
         lucide.createIcons();
-
-        // --- Efeito Smart Header ---
-        let lastScrollTop = 0;
-        const navbar = document.getElementById('navbar');
-
-        window.addEventListener('scroll', function() {
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            if (scrollTop > lastScrollTop && scrollTop > 100) {
-                navbar.style.transform = 'translateY(-100%)';
-            } else {
-                navbar.style.transform = 'translateY(0)';
-            }
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
-        }, { passive: true });
 
         // --- Lógica do Carrossel de Projetos ---
         let currentProject = 1;
@@ -448,7 +462,7 @@
                 proj.classList.add('hidden');
                 proj.classList.remove('animate-fade-in');
                 
-                dot.classList.remove('bg-primary', 'w-8');
+                dot.classList.remove('bg-cyan-500', 'w-8');
                 dot.classList.add('bg-slate-700', 'w-4');
             }
             
@@ -460,9 +474,10 @@
             activeProj.classList.add('animate-fade-in');
             
             activeDot.classList.remove('bg-slate-700', 'w-4');
-            activeDot.classList.add('bg-primary', 'w-8');
+            activeDot.classList.add('bg-cyan-500', 'w-8');
             
             currentProject = index;
+            lucide.createIcons(); // Re-renderizar iconos en el tab activo si es necesario
         }
 
         function nextProject() {
